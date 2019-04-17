@@ -29,6 +29,6 @@ export async function requesLocationPermission() {
             console.log("Location permission denied")
         }
     } catch (err) {
-        console.warn(err)
+        console.log(err)
     }
 }

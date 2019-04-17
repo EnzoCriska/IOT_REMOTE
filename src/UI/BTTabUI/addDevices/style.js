@@ -87,5 +87,5 @@ export const styles = StyleSheet.create({
         fontSize: 30,
         color: 'red',
         marginLeft: 10 * scale_point
-    }
+    },
 })
