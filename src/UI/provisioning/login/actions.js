@@ -31,12 +31,11 @@ export function login_actions(self,username, password){
 
             alerMsgCallApi(res)
             console.log(res)
-            if(res.status === 200){
+            if(res.status === 200 || res.status === 201){
                 dispatch(login_success(res.data))
                 self.props.navigation.navigate("home")
             }else{
                 dispatch(login_fail())
-
             }
             
         })

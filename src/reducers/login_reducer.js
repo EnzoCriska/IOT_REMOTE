@@ -19,7 +19,7 @@ export default (state = APP_STATE, action) => {
             return {
                 ...state,
                 token: action.payload.token,
-                refreshtoken: action.payload.refreshtoken,
+                // refreshtoken: action.payload.refreshtoken,
                 isLoading: false
             }
         case LOGIN_FAIL:

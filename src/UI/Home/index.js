@@ -54,7 +54,7 @@ export default class Home extends Component {
 
   async componentDidMount(){
     await requesLocationPermission()
-    navigator.geolocation.getCurrentPosition(
+    await navigator.geolocation.getCurrentPosition(
       position => {
         console.log(position)
         const location = position.coords

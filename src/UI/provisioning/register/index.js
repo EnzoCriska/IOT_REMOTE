@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { RenderRegister } from './render';
 import LoadingComp from '../../../component/LoadingComp';
+import { registerApi } from '../../../network/API';
 
 export default class Register extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email: "",
-            password: "",
-            repassword: "",
+            email: "tiendung.thai.8@gmail.com",
+            password: "123",
+            repassword: "123",
             isloading: false
         };
     }
@@ -27,7 +28,7 @@ export default class Register extends Component {
     }
 
     onRegister (){
-
+        registerApi(this.state.email, this.state.password)
     }
 
 

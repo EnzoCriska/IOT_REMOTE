@@ -4,13 +4,14 @@ import Splash from './splashScreen';
 import Login from './provisioning/login';
 import Register from './provisioning/register';
 import Home from './Home';
+import { TabBottom } from './BTTabUI/bottomTabBar';
 
 
 const main_stack = createStackNavigator({
     splash: Splash,
     login: Login,
     register: Register,
-    home: Home
+    home: TabBottom
     
 },{
     headerMode: "none"

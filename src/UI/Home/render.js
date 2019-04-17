@@ -17,8 +17,6 @@ export const RenderHome = ({
     return (
         <View style={styles.container}>
 
-            <View style={styles.headerContainer}>
-            </View>
 
             <View style={styles.weatherContainer}>
 
