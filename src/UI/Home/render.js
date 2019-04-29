@@ -10,9 +10,10 @@ import { APP_STYLE_COLOR } from '../../util/app_style_containt/style';
 import Room from '../Room';
 
 export const RenderHome = ({
+    navigation = {},
     country = '',
     forecast = "",
-    rooms = []
+    rooms = [],
 }) => {
     return (
         <View style={styles.container}>
@@ -49,7 +50,7 @@ export const RenderHome = ({
 
                     {rooms.map(item => (
                         <Room
-                            
+                            navigation={navigation}
                             key={JSON.stringify(item)}
                             tabLabel={{ label: item.name }}
                             label={item.name}

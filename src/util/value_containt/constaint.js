@@ -10,3 +10,5 @@ export const RESPONSE_STATUS = {
     UNAUTHORIZED: 401,
     BAD_REQUEST: 400
 }
+
+export const TYPE_DEVICES = ["Quạt", "Đèn", "Điều hòa", "Khóa cửa", "Ổ cắm"]

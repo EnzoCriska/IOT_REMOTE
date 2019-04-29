@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { RenderSplash } from './render';
+import { getAccessToken } from '../../util/function_util/asyncStorage';
+import { connect } from 'react-redux';
+import { gettingToken } from './action';
 
-export default class Splash extends Component {
+class Splash extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -10,7 +13,7 @@ export default class Splash extends Component {
   }
 
   componentDidMount = () => {
-    setTimeout(() => this.props.navigation.navigate("login"), 1500)
+    this.props.getToken(this)
   };
   
 
@@ -20,3 +23,20 @@ export default class Splash extends Component {
     );
   }
 }
+
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    getToken: (context) => {
+      dispatch(gettingToken(context))
+    }
+  }
+}
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    prop: state.prop
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Splash)

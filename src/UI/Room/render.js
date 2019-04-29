@@ -7,21 +7,22 @@ import { styles } from './style';
 
 export const RenderRoom = ({
     devices = [],
-    goToDevice = () => { }
+    goToDevice = () => { },
+    deleteDevice = () => {}
 }) => {
-    console.log(devices)
     return (
         <View style={styles.container}>
             {devices.length === 0 ? <Text>Nothing</Text> :
                 <FlatList
                     style={styles.flatlist}
                     data={devices}
-                    numColumns={4}
-                    keyExtractor={(item) => item.toString()}
+                    numColumns={3}
+                    keyExtractor={(item, index) => item.toString() + index}
                     renderItem={({ item }) => {
                         return (
                             <TouchableOpacity
-                                onPress={() => goToDevice(item)}>
+                                onPress={() => goToDevice(item)}
+                                onLongPress = {() => deleteDevice(item)}>
                                 <View style={item.status === "on" ? styles.itemContainerON : styles.itemContainerOFF}>
                                     <Text>{item.name}</Text>
                                 </View>

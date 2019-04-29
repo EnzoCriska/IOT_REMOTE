@@ -1,6 +1,6 @@
 import Axios from "axios";
 import { BASE_URL, CONSTANT } from './constant';
-const M_BASE = "http://206.189.83.245"
+const M_BASE = "http://35.247.152.248"
 
 const headers = {
   'Content-Type' : 'application/json'
@@ -40,3 +40,50 @@ export function loginApi(username, password) {
   })
 }
 
+export function addDeviceApi(token,type, name, room){
+  return Axios.post(
+    M_BASE + "/things",
+    {
+      "type":"device",
+      "name":name,
+      "metadata":{
+        "type": type,
+        "room": room
+      }
+    },
+    {
+      headers:{
+        "Content-Type": "application/json",
+        "Authorization": token,
+      }
+    }
+  ).then(res => res)
+  .catch(err => console.log(err))
+}
+
+
+export function getDevicesApi(token){
+  return Axios.get(
+    M_BASE + '/things',
+    {
+      headers:{
+        "Content-Type": "application/json",
+        "Authorization": token,
+      }
+    }
+  ).then(res => res)
+  .catch(err => console.log(err))
+}
+
+export function deleteDevicesApi(token, thingId){
+  return Axios.delete(
+    M_BASE + '/things/'+thingId,
+    {
+      headers:{
+        "Content-Type": "application/json",
+        "Authorization": token,
+      }
+    }
+  ).then(res => res)
+  .catch(err => console.log(err))
+}

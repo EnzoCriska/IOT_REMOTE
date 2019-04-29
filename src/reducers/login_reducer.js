@@ -1,5 +1,5 @@
 
-import { LOGINING, LOGIN_SUCCESS, LOGIN_FAIL } from '../util/value_containt/actions_type';
+import { LOGINING, LOGIN_SUCCESS, LOGIN_FAIL, GET_TOKEN } from '../util/value_containt/actions_type';
 
 const APP_STATE = {
     token: '',
@@ -10,6 +10,12 @@ const APP_STATE = {
 
 export default (state = APP_STATE, action) => {
     switch (action.type) {
+        case GET_TOKEN:
+            return{
+                ...state,
+                token: action.payload
+            }
+
         case LOGINING:
             return {
                 ...state,

@@ -43,6 +43,7 @@ export const styles = StyleSheet.create({
         margin: 20 * scale_point,
         borderRadius: 5 * scale_point,
         flex:1,
+        height:"100%",
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -82,6 +83,7 @@ export const styles = StyleSheet.create({
         borderRadius: 5 * scale_point,
         justifyContent: 'center',
         alignItems: 'center',
+        marginVertical: 20 * scale_point
     },
     addRoomIcon:{
         fontSize: 30,

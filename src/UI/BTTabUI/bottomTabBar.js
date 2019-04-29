@@ -9,6 +9,7 @@ import AddDevices from './addDevices/index';
 import Report from './Report/index';
 import SmartScenario from './SmartScenario/index';
 import BLEScan from './BLEScan';
+import LightRemote from './RemoteUI/LightRemote';
 
 const ADD = createStackNavigator({
     addDevice: AddDevices,
@@ -30,9 +31,26 @@ ADD.navigationOptions = ({ navigation }) => {
 };
 
 
+const HomeStack = createStackNavigator({
+    home: Home,
+    light: LightRemote
+}, {headerMode:'none'})
+
+HomeStack.navigationOptions = ({ navigation }) => {
+    let tabBarVisible = true;
+    var stack = navigation.state.routes
+
+    if (stack[stack.length -1].routeName != 'home') {
+        tabBarVisible = false;
+    }
+    return {
+        tabBarVisible,
+    };
+}
+
 export const TabBottom = createBottomTabNavigator({
     Home: {
-        screen: Home,
+        screen: HomeStack,
         navigationOptions: ({ navigation }) => ({
             tabBarIcon: ({ focused }) => {
                 return focused ?

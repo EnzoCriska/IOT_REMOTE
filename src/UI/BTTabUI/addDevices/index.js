@@ -1,15 +1,21 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { RenderAddDevices } from './render';
+import { connect } from 'react-redux'
+import { addDeviceApi } from '../../../network/API';
+import { TYPE_DEVICES } from '../../../util/value_containt/constaint';
+import { Toast } from 'native-base';
 
-export default class AddDevices extends Component {
+class AddDevices extends Component {
     _menu = null
+    _typeMenu = null
     constructor(props) {
         super(props);
         this.state = {
             device_name: '',
             isAddRoom: false,
             room_name: "",
+            type_device: TYPE_DEVICES,
             rooms: [
                 {
                     name: "Phòng khách",
@@ -51,11 +57,41 @@ export default class AddDevices extends Component {
     setMenuRef(ref) {
         this._menu = ref
     }
+    setTypeMenuRef(ref){
+        this._typeMenu = ref
+    }
     
     onAddDevice(){
-        const {device_name, rooms} = this.state
+        const {device_name, rooms, room_name, type_device} = this.state
+        const {token} = this.props.data
 
-        console.log(rooms[this._menu.selectedIndex()])
+        console.log("Select" + this._menu.selectedIndex())
+        if(device_name === ""){
+            alert("Bạn phải nhập tên thiết bị")
+        }else if(this._typeMenu.selectedIndex() === -1){
+            alert("Bạn phải chọn loại thiết bị")
+        }else if(this._menu.selectedIndex() === -1 && room_name === ""){
+            alert("Bạn phải chọn phòng hoặc thêm phòng mới")
+        }else{
+            if(this._menu.selectedIndex() === -1){
+                tpmRoom = room_name
+            }else{
+                tpmRoom = rooms[this._menu.selectedIndex()]
+            }
+            const tpmType = type_device[this._typeMenu.selectedIndex()]
+            addDeviceApi(token,tpmType,  device_name, tpmRoom).then(res => {
+                Toast.show({
+                    text:"Thêm thành công!",
+                    type: "success"
+                })
+            })
+            .catch(err => Toast.show({
+                text:"Thêm thất bại!",
+                type: "danger"
+            }))
+        }
+        
+        
     }
 
     onChangeAddRoom(){
@@ -75,13 +111,15 @@ export default class AddDevices extends Component {
     }
 
     render() {
-        const { rooms, device_name, isAddRoom, room_name } = this.state
+        const { rooms, device_name, isAddRoom, room_name, type_device } = this.state
         return (
             <RenderAddDevices
                 device_name={device_name}
+                type_device = {type_device}
                 onChangeName={(text) => this.onChangeName(text)}
                 rooms={rooms}
                 setMenuRef={(ref) => this.setMenuRef(ref)}
+                setTypeMenuRef = {(ref) => this.setTypeMenuRef(ref)}
                 onAddDevice = {() => this.onAddDevice()}
                 isAddRoom = {isAddRoom}
                 onChangeAddRoom = {() => this.onChangeAddRoom()}
@@ -92,3 +130,11 @@ export default class AddDevices extends Component {
         );
     }
 }
+
+const mapStateToProps = (state, ownProps) => {
+    return {
+        data: state.login_reducer
+    }
+}
+
+export default connect(mapStateToProps)(AddDevices)

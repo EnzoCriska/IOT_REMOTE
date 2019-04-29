@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
+import { RenderInfo } from './render';
+import { removeAccessToken } from '../../../../util/function_util/asyncStorage';
 
 export default class Info extends Component {
   constructor(props) {
@@ -8,11 +10,16 @@ export default class Info extends Component {
     };
   }
 
+  onToLogout(){
+    removeAccessToken()
+    this.props.navigation.navigate("login")
+  }
+
   render() {
     return (
-      <View>
-        <Text> textInComponent </Text>
-      </View>
+      <RenderInfo
+      onToLogout = {() => this.onToLogout()}
+      />
     );
   }
 }

@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.rusel.RCTBluetoothSerial.RCTBluetoothSerialPackage;
+import com.rusel.RCTBluetoothSerial.RCTBluetoothSerialPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;

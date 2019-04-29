@@ -17,7 +17,9 @@ export default class BLEScan extends Component {
     Promise.all([BluetoothSerial.isEnabled(), BluetoothSerial.list()]).then(
       values => {
         console.log(values)
+        
         const [isEnabled, devices] = values;
+        console.log(devices[0].isConnected())
         this.setState({ isEnabled, devices });
       }
     );
@@ -171,6 +173,7 @@ export default class BLEScan extends Component {
     const { isEnabled, devices, unpairedDevices, discovering, connected, device, isRefreshing } = this.state
     return (
       <RenderBLEScan
+      state = {this.state}
         isRefreshing = {isRefreshing}
         connected={connected}
         device={device}

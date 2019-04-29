@@ -6,6 +6,7 @@ import { styles } from './style';
 import { Icon } from 'native-base';
 
 export const RenderBLEScan = ({
+    state = {},
     isRefreshing = false,
     onRefresh = () => {},
     connected = false,
@@ -68,6 +69,7 @@ export const RenderBLEScan = ({
                             {devices.length > 0 ?
                                 <FlatList
                                     data={devices}
+                                    extraData ={state}
                                     keyExtractor={(item, index) => item.id.toString() + index}
                                     renderItem={({ item }) => (
                                         <TouchableOpacity
@@ -102,6 +104,7 @@ export const RenderBLEScan = ({
                                 unpairedDevices.length > 0 ?
                                     <FlatList
                                         data={unpairedDevices}
+                                        extraData= {state}
                                         keyExtractor={(item, index) => item.id.toString() + index}
                                         refreshControl={
                                             <RefreshControl

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { RenderHome } from './render';
-import { getStatusWeather } from '../../network/API';
+import { getStatusWeather, getDevicesApi } from '../../network/API';
 import { requesLocationPermission } from '../../util/function_util/checkPermission';
+import { connect } from 'react-redux'
+import { getDevices } from './action';
 
-export default class Home extends Component {
+class Home extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -18,42 +20,14 @@ export default class Home extends Component {
         temp: '',
         icon: ''
       },
-      rooms:[
-        {
-          name: "Phòng khách",
-          id: 1
-        },
-        {
-          name: "Phòng ngủ 1",
-          id: 2
-        },
-        {
-          name: "Phòng ngủ 2",
-          id: 3
-        },
-        {
-          name: "Phòng Bếp",
-          id: 4
-        },
-        {
-          name: "Phòng Đọc sách",
-          id: 5
-        },
-        {
-          name: "Phòng Tắm",
-          id: 6
-        },
-        {
-          name: "Phòng Thờ",
-          id: 7
-        }
-      ]
+      rooms:[]
     };
 
   }
 
   async componentDidMount(){
     await requesLocationPermission()
+    this.getDevice()
     await navigator.geolocation.getCurrentPosition(
       position => {
         console.log(position)
@@ -83,11 +57,18 @@ export default class Home extends Component {
 
   };
 
+  getDevice(){
+    const {token} = this.props.data
+    this.props.getDevices(token)
+  }
+
 
   render() {
-    const { country, forecast, rooms } = this.state
+    const { country, forecast } = this.state
+    const {rooms} = this.props.devices
     return (
       <RenderHome
+      navigation = {this.props.navigation}
         country={country}
         forecast={forecast}
         rooms = {rooms}
@@ -95,3 +76,20 @@ export default class Home extends Component {
     );
   }
 }
+
+const mapStateToProps = (state, ownProps) => {
+  return {
+    data: state.login_reducer,
+    devices: state.devices_reducer
+  }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    getDevices: (token) => {
+      dispatch(getDevices(token))
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home)
