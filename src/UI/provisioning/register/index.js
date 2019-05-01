@@ -3,6 +3,8 @@ import { View, Text } from 'react-native';
 import { RenderRegister } from './render';
 import LoadingComp from '../../../component/LoadingComp';
 import { registerApi } from '../../../network/API';
+import { alerMsgCallApi } from '../../../util/function_util/alerMsgCallAPI';
+import { Toast } from 'native-base';
 
 export default class Register extends Component {
     constructor(props) {
@@ -28,7 +30,16 @@ export default class Register extends Component {
     }
 
     onRegister (){
-        registerApi(this.state.email, this.state.password)
+        registerApi(this.state.email, this.state.password).then(res => {
+            alerMsgCallApi(this, res)
+            if(res.status === 201){
+                Toast.show({
+                    text: "Đăng ký thành công!",
+                    type: "success"
+                })
+                this.props.navigation.navigate("login")
+            }
+        })
     }
 
 

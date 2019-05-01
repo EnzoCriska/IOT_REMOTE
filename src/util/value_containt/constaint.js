@@ -8,7 +8,9 @@ export const RESPONSE_STATUS = {
     SUCCESS: 200,
     NOT_FOUND: 404,
     UNAUTHORIZED: 401,
-    BAD_REQUEST: 400
+    BAD_REQUEST: 400,
+    REFRESH_TOKEN: 403,
+    EXISTS_ACCOUNT: 409
 }
 
 export const TYPE_DEVICES = ["Quạt", "Đèn", "Điều hòa", "Khóa cửa", "Ổ cắm"]

@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { addDeviceApi } from '../../../network/API';
 import { TYPE_DEVICES } from '../../../util/value_containt/constaint';
 import { Toast } from 'native-base';
+import { addDeviceAction } from './action';
 
 class AddDevices extends Component {
     _menu = null
@@ -16,36 +17,7 @@ class AddDevices extends Component {
             isAddRoom: false,
             room_name: "",
             type_device: TYPE_DEVICES,
-            rooms: [
-                {
-                    name: "Phòng khách",
-                    id: 1
-                },
-                {
-                    name: "Phòng ngủ 1",
-                    id: 2
-                },
-                {
-                    name: "Phòng ngủ 2",
-                    id: 3
-                },
-                {
-                    name: "Phòng Bếp",
-                    id: 4
-                },
-                {
-                    name: "Phòng Đọc sách",
-                    id: 5
-                },
-                {
-                    name: "Phòng Tắm",
-                    id: 6
-                },
-                {
-                    name: "Phòng Thờ",
-                    id: 7
-                }
-            ]
+            rooms: []
         };
         
     }
@@ -74,7 +46,9 @@ class AddDevices extends Component {
             alert("Bạn phải chọn phòng hoặc thêm phòng mới")
         }else{
             if(this._menu.selectedIndex() === -1){
-                tpmRoom = room_name
+                tpmRoom = {
+                    id: rooms.length,
+                    name: room_name}
             }else{
                 tpmRoom = rooms[this._menu.selectedIndex()]
             }
@@ -137,4 +111,12 @@ const mapStateToProps = (state, ownProps) => {
     }
 }
 
-export default connect(mapStateToProps)(AddDevices)
+const mapDispatchToProps = (dispatch, ownProps) => {
+    return {
+        addDeviceAc: (token, type, name, room) => {
+            dispatch(addDeviceAction(token, type, name, room))
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddDevices)

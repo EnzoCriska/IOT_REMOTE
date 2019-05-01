@@ -1,18 +1,21 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { BackHandler, Animated } from 'react-native';
 import { RenderHome } from './render';
 import { getStatusWeather, getDevicesApi } from '../../network/API';
 import { requesLocationPermission } from '../../util/function_util/checkPermission';
 import { connect } from 'react-redux'
-import { getDevices } from './action';
+import { getDevices, createChanel, getChanelAction } from './action';
+import { Toast } from 'native-base';
+import { height } from '../../util/value_containt/constaint';
 
 class Home extends Component {
   constructor(props) {
     super(props);
+    this.springValue = new Animated.Value(100);
     this.state = {
       country: {
-        city:'',
-        country:''
+        city: '',
+        country: ''
       },
       forecast: {
         main: '',
@@ -20,12 +23,61 @@ class Home extends Component {
         temp: '',
         icon: ''
       },
-      rooms:[]
+      rooms: [],
+      backClickCount: 0
     };
 
   }
 
-  async componentDidMount(){
+  componentWillMount() {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+  }
+
+  _spring() {
+    Toast.show({
+      text:"Nhấn back lần nữa để thoát",
+      type: "warning"
+    })
+    this.setState({ backClickCount: 1 }, () => {
+      Animated.sequence([
+        Animated.spring(
+          this.springValue,
+          {
+            toValue: -.15 * height,
+            friction: 5,
+            duration: 300,
+            useNativeDriver: true,
+          }
+        ),
+        Animated.timing(
+          this.springValue,
+          {
+            toValue: 100,
+            duration: 300,
+            useNativeDriver: true,
+          }
+        ),
+
+      ]).start(() => {
+        this.setState({ backClickCount: 0 });
+      });
+    });
+
+  }
+
+
+  handleBackButton = () => {
+    this.state.backClickCount == 1 ? BackHandler.exitApp() : this._spring();
+
+    return true;
+  };
+
+  async componentDidMount() {
+    this.props.navigation.addListener('willBlur', 
+    payload => {
+      BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    })
+
     await requesLocationPermission()
     this.getDevice()
     await navigator.geolocation.getCurrentPosition(
@@ -36,7 +88,7 @@ class Home extends Component {
           console.log(res);
           this.setState({
             country: {
-              country:res.sys.country,
+              country: res.sys.country,
               city: res.name
             },
             forecast: {
@@ -57,21 +109,23 @@ class Home extends Component {
 
   };
 
-  getDevice(){
-    const {token} = this.props.data
-    this.props.getDevices(token)
+  getDevice() {
+    const { token, user_name } = this.props.data
+    this.props.getDevices(this, token)
+    this.props.getChannel(user_name, token)
   }
 
 
   render() {
     const { country, forecast } = this.state
-    const {rooms} = this.props.devices
+    const { rooms } = this.props.devices
     return (
       <RenderHome
-      navigation = {this.props.navigation}
+        navigation={this.props.navigation}
         country={country}
         forecast={forecast}
-        rooms = {rooms}
+        rooms={rooms}
+        onReloadDevices={() => this.getDevice()}
       />
     );
   }
@@ -86,8 +140,11 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getDevices: (token) => {
-      dispatch(getDevices(token))
+    getDevices: (context, token) => {
+      dispatch(getDevices(context, token))
+    },
+    getChannel: (username, token) => {
+      dispatch(getChanelAction(username, token))
     }
   }
 }

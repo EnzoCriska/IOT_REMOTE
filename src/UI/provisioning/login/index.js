@@ -62,7 +62,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         action_login: (context, username, password) => {
             dispatch(login_actions(context, username, password))
-        }
+        },
     }
 }
 

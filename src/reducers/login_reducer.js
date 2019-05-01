@@ -13,7 +13,8 @@ export default (state = APP_STATE, action) => {
         case GET_TOKEN:
             return{
                 ...state,
-                token: action.payload
+                token: action.payload,
+                user_name: action.user_name
             }
 
         case LOGINING:
@@ -25,6 +26,7 @@ export default (state = APP_STATE, action) => {
             return {
                 ...state,
                 token: action.payload.token,
+                user_name: action.user_name,
                 // refreshtoken: action.payload.refreshtoken,
                 isLoading: false
             }

@@ -4,12 +4,13 @@ import { createStackNavigator, createBottomTabNavigator, createAppContainer } fr
 import Home from '../Home/index';
 import { ProfileStack } from './profile/profileStack';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { APP_STYLE_COLOR } from '../../util/app_style_containt/style';
+import { APP_STYLE_COLOR, COLORS } from '../../util/app_style_containt/style';
 import AddDevices from './addDevices/index';
 import Report from './Report/index';
 import SmartScenario from './SmartScenario/index';
 import BLEScan from './BLEScan';
 import LightRemote from './RemoteUI/LightRemote';
+import Login from '../provisioning/login/index';
 
 const ADD = createStackNavigator({
     addDevice: AddDevices,
@@ -33,7 +34,8 @@ ADD.navigationOptions = ({ navigation }) => {
 
 const HomeStack = createStackNavigator({
     home: Home,
-    light: LightRemote
+    light: LightRemote,
+    login: Login
 }, {headerMode:'none'})
 
 HomeStack.navigationOptions = ({ navigation }) => {
@@ -57,17 +59,17 @@ export const TabBottom = createBottomTabNavigator({
                     <Icon
                         name="home"
                         size={30}
-                        color="red"
+                        color={COLORS.BOTTONTAB_ICON_ACTIVE}
                     /> :
                     <Icon
                         name="home"
                         size={25}
-                        color="grey"
+                        color={COLORS.BOTTONTAB_ICON_UNACTIVE}
                     />
             },
             tabBarLabel: ({ focused }) => {
                 return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-                    <Text style={focused ? { color: "red" } : { color: "grey" }}>Trang chủ</Text>
+                    <Text style={focused ? { color: COLORS.BOTTONTAB_ICON_ACTIVE } : { color: COLORS.BOTTONTAB_ICON_UNACTIVE }}>Trang chủ</Text>
                 </View>
             }
         })
@@ -81,17 +83,17 @@ export const TabBottom = createBottomTabNavigator({
                     <Icon
                         name="pie-chart"
                         size={30}
-                        color="red"
+                        color={COLORS.BOTTONTAB_ICON_ACTIVE}
                     /> :
                     <Icon
                         name="pie-chart"
                         size={25}
-                        color="grey"
+                        color={COLORS.BOTTONTAB_ICON_UNACTIVE}
                     />
             },
             tabBarLabel: ({ focused }) => {
                 return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-                    <Text style={focused ? { color: "red" } : { color: "grey" }}>Đánh giá</Text>
+                    <Text style={focused ? { color: COLORS.BOTTONTAB_ICON_ACTIVE } : { color: COLORS.BOTTONTAB_ICON_UNACTIVE }}>Đánh giá</Text>
                 </View>
             }
         })
@@ -105,17 +107,17 @@ export const TabBottom = createBottomTabNavigator({
                     <Icon
                         name="plus-circle"
                         size={60}
-                        color="red"
+                        color={COLORS.BOTTONTAB_ICON_ACTIVE}
                     /> :
                     <Icon
                         name="plus-circle"
                         size={50}
-                        color="grey"
+                        color={COLORS.BOTTONTAB_ICON_UNACTIVE}
                     />
             },
             tabBarLabel: ({ focused }) => {
                 return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-                    <Text style={focused ? { color: "red" } : { color: "grey" }}></Text>
+                    <Text style={focused ? { color: COLORS.BOTTONTAB_ICON_ACTIVE } : { color: COLORS.BOTTONTAB_ICON_UNACTIVE }}></Text>
                 </View>
 
             }
@@ -130,17 +132,17 @@ export const TabBottom = createBottomTabNavigator({
                     <Icon
                         name="codepen"
                         size={30}
-                        color="red"
+                        color={COLORS.BOTTONTAB_ICON_ACTIVE}
                     /> :
                     <Icon
                         name="codepen"
                         size={25}
-                        color="grey"
+                        color={COLORS.BOTTONTAB_ICON_UNACTIVE}
                     />
             },
             tabBarLabel: ({ focused }) => {
                 return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-                    <Text style={focused ? { color: "red" } : { color: "grey" }}>Kịch bản</Text>
+                    <Text style={focused ? { color: COLORS.BOTTONTAB_ICON_ACTIVE} : { color: COLORS.BOTTONTAB_ICON_UNACTIVE}}>Kịch bản</Text>
                 </View>
 
             }
@@ -154,17 +156,17 @@ export const TabBottom = createBottomTabNavigator({
                     <Icon
                         name="user-circle-o"
                         size={30}
-                        color="red"
+                        color={COLORS.BOTTONTAB_ICON_ACTIVE}
                     /> :
                     <Icon
                         name="user-circle-o"
                         size={25}
-                        color="grey"
+                        color={COLORS.BOTTONTAB_ICON_UNACTIVE}
                     />
             },
             tabBarLabel: ({ focused }) => {
                 return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-                    <Text style={focused ? { color: "red" } : { color: "grey" }}>Tài khoản</Text>
+                    <Text style={focused ? { color: COLORS.BOTTONTAB_ICON_ACTIVE } : { color: COLORS.BOTTONTAB_ICON_UNACTIVE}}>Tài khoản</Text>
                 </View>
 
             }
@@ -175,8 +177,9 @@ export const TabBottom = createBottomTabNavigator({
         tabBarOptions: {
             showIcon: true,
             style: {
-                // backgroundColor: "#0081FF",
-                backgroundColor: 'transparent'
+                backgroundColor: APP_STYLE_COLOR,
+                height: 60
+                // backgroundColor: 'transparent'
             },
             labelStyle: {
                 color: '#fff'

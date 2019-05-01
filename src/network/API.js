@@ -3,7 +3,9 @@ import { BASE_URL, CONSTANT } from './constant';
 const M_BASE = "http://35.247.152.248"
 
 const headers = {
-  'Content-Type' : 'application/json'
+  'Content-Type' : 'application/json',
+  'Access-Control-Allow-Origin': "*",
+  
 }
 
 export function getStatusWeather(lat, lon) {
@@ -13,15 +15,14 @@ export function getStatusWeather(lat, lon) {
 }
 
 export function registerApi(username, password){
-  return Axios.post(
-    M_BASE + "/users",
-    {"email":username, "password":password},
-    {headers: headers}
-  ).then(res => res)
-  .catch(err => {
-    console.log("REGISTER FAIL ")
-    console.log(err)
-  })
+
+  return fetch(M_BASE + "/users",{
+    method:'POST',
+    headers: headers,
+    body:JSON.stringify({"email":username, "password":password}),
+    
+  }).then(res => res)
+  .catch(err => console.log(err))
 }
 
 export function loginApi(username, password) {
@@ -53,7 +54,7 @@ export function addDeviceApi(token,type, name, room){
     },
     {
       headers:{
-        "Content-Type": "application/json",
+        ...headers,
         "Authorization": token,
       }
     }
@@ -63,11 +64,28 @@ export function addDeviceApi(token,type, name, room){
 
 
 export function getDevicesApi(token){
+  console.log(["TOKEN", token])
   return Axios.get(
     M_BASE + '/things',
     {
       headers:{
-        "Content-Type": "application/json",
+        ...headers,
+        "Authorization": token,
+      }
+    }
+  ).then(res => res)
+  .catch(err => {console.log(["CATCH ERROR",err])
+return err})
+}
+
+
+
+export function deleteDevicesApi(token, thingId){
+  return Axios.delete(
+    M_BASE + '/things/'+thingId,
+    {
+      headers:{
+        ...headers,
         "Authorization": token,
       }
     }
@@ -75,13 +93,31 @@ export function getDevicesApi(token){
   .catch(err => console.log(err))
 }
 
-export function deleteDevicesApi(token, thingId){
-  return Axios.delete(
-    M_BASE + '/things/'+thingId,
+
+export function createChanelApi(chanel_name, token){
+  console.log(["TOKEN", token])
+  return Axios.post(
+    M_BASE + '/channels',
+    {
+      "name" : chanel_name
+    },
     {
       headers:{
-        "Content-Type": "application/json",
+        ...headers,
         "Authorization": token,
+      }
+    }
+  ).then(res => res)
+  .catch(err => console.log(err))
+}
+
+export function getChannelApi(token){
+  return Axios.get(
+    M_BASE + '/channels',
+    {
+      headers: {
+        ...headers,
+        "Authorization": token
       }
     }
   ).then(res => res)

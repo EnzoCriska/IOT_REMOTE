@@ -14,6 +14,7 @@ export const RenderHome = ({
     country = '',
     forecast = "",
     rooms = [],
+    onReloadDevices = () => {}
 }) => {
     return (
         <View style={styles.container}>
@@ -55,6 +56,7 @@ export const RenderHome = ({
                             tabLabel={{ label: item.name }}
                             label={item.name}
                             id={item.id}
+                            onReloadDevices = {() => onReloadDevices()}
                         />
                     ))}
 

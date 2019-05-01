@@ -38,4 +38,72 @@ export const styles  = StyleSheet.create({
         fontSize: 20 * scale_point,
         alignSelf: "center",
     },
+    bodyRemote:{
+        flex:1,
+        margin: 20 * scale_point,
+        backgroundColor: APP_STYLE_COLOR,
+        borderRadius: 5 * scale_point,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    powerContainer:{
+        width:"100%",
+        flexDirection:'row',
+        justifyContent: 'space-between'
+    },
+    poweroffBtn:{
+        justifyContent:'center',
+        alignItems:"center",
+        width: 50 * scale_point,
+        height: 50 * scale_point,
+        borderRadius: 25 * scale_point,
+        backgroundColor: "#fff",
+        margin: 20 * scale_point
+    },
+    iconPoweroffStyle:{
+        fontSize: 30 * scale_point,
+        color: "grey"
+    },
+    iconLightContainer:{
+        justifyContent:'center',
+        alignItems:"center",
+        width: 50 * scale_point,
+        height: 50 * scale_point,
+        borderRadius: 25 * scale_point,
+        backgroundColor: "#fff",
+        margin: 20 * scale_point,
+        alignSelf:'flex-end'
+    },
+    colorPickerContainer:{
+        width: 300 * scale_point,
+        height: 300 * scale_point,
+        justifyContent:"center",
+        alignItems: 'center',
+    },
+    colorPicker:{
+        width: "90%",
+        margin:20 * scale_point,
+    },
+    thumStylePicker:{
+        height: 10, 
+        width: 10, 
+        borderRadius: 10
+    },
+    sliderContainer:{
+        width: "100%",
+        flexDirection:'row',
+        alignItems: 'center',
+    },
+    outContainer:{
+        width: "10%",
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    midContainer:{
+        width: '80%',
+        // height: 20,
+    },
+    trackStyle:{
+        width: "100%",
+    }
 })
