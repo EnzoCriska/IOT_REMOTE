@@ -41,16 +41,17 @@ export function loginApi(username, password) {
   })
 }
 
-export function addDeviceApi(token,type, name, room){
+export function addDeviceApi(token,type, name, room, isApp){
+  console.log(["ADD API", type, name, room])
   return Axios.post(
     M_BASE + "/things",
     {
-      "type":"device",
+      "type": isApp ? "app" :"device",
       "name":name,
-      "metadata":{
+      "metadata": type ? {
         "type": type,
         "room": room
-      }
+      } : null
     },
     {
       headers:{
@@ -116,6 +117,21 @@ export function getChannelApi(token){
     M_BASE + '/channels',
     {
       headers: {
+        ...headers,
+        "Authorization": token
+      }
+    }
+  ).then(res => res)
+  .catch(err => console.log(err))
+}
+
+
+export function addThingstoChannelApi(token, channel_id, thing_id){
+  return Axios.put(
+    M_BASE + "/channels/" + channel_id + "/things/" + thing_id,
+    {},
+    {
+      headers:{
         ...headers,
         "Authorization": token
       }

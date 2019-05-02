@@ -27,12 +27,16 @@ export default (state = APP_STATE, action) => {
                 }
             }
 
-            return {
+
+            var newState = {
                 ...state,
                 isLoading: false,
-                devices: action.payload,
+                devices: things,
                 rooms: tpmRooms
             }
+
+            console.log(newState)
+            return newState
         case GET_FAIL_DEVICES:
             return {
                 ...state,
@@ -42,21 +46,21 @@ export default (state = APP_STATE, action) => {
 
         case DELETED_DEVICE:
             var tmpDevices = state.devices
-            for(let i = 0; i < tmpDevices.length; i++){
-                if(tmpDevices[i].id === action.payload){
+            for (let i = 0; i < tmpDevices.length; i++) {
+                if (tmpDevices[i].id === action.payload) {
                     tmpDevices.splice(i, 1)
                     break;
                 }
             }
             var tmpRooms = state.rooms
             var roomNull = []
-            for(let i =0; i < tmpRooms.length; i++){
-                let found = tmpDevices.find((element) =>{
+            for (let i = 0; i < tmpRooms.length; i++) {
+                let found = tmpDevices.find((element) => {
                     return element.metadata.room.name === tmpRooms[i].name
                 })
                 if (!found) tmpRooms.splice(i, 1)
             }
-            return{
+            return {
                 ...state,
                 devices: tmpDevices,
                 rooms: tmpRooms

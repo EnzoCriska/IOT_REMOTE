@@ -137,7 +137,6 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-bluetooth-serial')
     implementation project(':react-native-bluetooth-serial')
     implementation project(':react-native-vector-icons')
     implementation project(':react-native-gesture-handler')

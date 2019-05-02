@@ -6,7 +6,11 @@ import { requesLocationPermission } from '../../util/function_util/checkPermissi
 import { connect } from 'react-redux'
 import { getDevices, createChanel, getChanelAction } from './action';
 import { Toast } from 'native-base';
-import { height } from '../../util/value_containt/constaint';
+import { height, ws } from '../../util/value_containt/constaint';
+// import { Network } from '../../util/MQTTtoMainFlux/Network';
+// import client from '../../util/MQTTtoMainFlux/client';
+// import  { Network } from '../../util/MQTTtoMainFlux/paho_client';
+// import client from '../../util/MQTTtoMainFlux/Network';
 
 class Home extends Component {
   constructor(props) {
@@ -78,6 +82,8 @@ class Home extends Component {
       BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
     })
 
+    
+
     await requesLocationPermission()
     this.getDevice()
     await navigator.geolocation.getCurrentPosition(
@@ -106,19 +112,25 @@ class Home extends Component {
         })
       }
     ).catch(error => console.log(error))
-
+    this.initNetwork()
   };
 
   getDevice() {
     const { token, user_name } = this.props.data
     this.props.getDevices(this, token)
-    this.props.getChannel(user_name, token)
+  }
+
+  initNetwork(){
+    console.log("home init...")
+    const{app, channel} = this.props.data
+    // Network(app.id, app.key, channel.id)
   }
 
 
   render() {
     const { country, forecast } = this.state
     const { rooms } = this.props.devices
+    console.log(["HOME STATE", this.props.data])
     return (
       <RenderHome
         navigation={this.props.navigation}
@@ -143,9 +155,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getDevices: (context, token) => {
       dispatch(getDevices(context, token))
     },
-    getChannel: (username, token) => {
-      dispatch(getChanelAction(username, token))
-    }
   }
 }
 

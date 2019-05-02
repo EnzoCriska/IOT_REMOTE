@@ -27,28 +27,19 @@ export function  getDevices(self, token){
     return (dispatch) => {
         dispatch(gettingDevices())
         getDevicesApi(token).then(res => {
-            console.log(["RES GETDEVICES: ", res])
-            const data = res.data
+            const things = res.data.things
             alerMsgCallApi(self, res)
-            console.log(["DATA" , data])
-            dispatch(getSuccessDevices(data.things))
+            console.log(["DATA" , things])
+            for (let i = 0; i< things.length; i++){
+                if(things[i].type === "app"){
+                    things.splice(i, 1)
+                    break;
+                }
+            }
+            dispatch(getSuccessDevices(things))
         }).catch(err => dispatch(getFailDevices(err)))
 
         
     }
 }
 
-
-export function getChannelSuccess(chanel){
-    return {
-
-    }
-}
-
-export function getChanelAction(username, token){
-    return (dispatch) => {
-        getChannelApi(token).then(res => {
-            console.log(["GET CHANNELs", res])
-        })
-    }
-}

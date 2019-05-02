@@ -13,4 +13,13 @@ export const RESPONSE_STATUS = {
     EXISTS_ACCOUNT: 409
 }
 
+
+export const ws = {
+    WS_HOST : "35.247.152.248",
+    WS_PORT: 3000,
+    LOGOUT_REASON: 4990,
+    KICKOUT_REASON: 4991
+}
+
+
 export const TYPE_DEVICES = ["Quạt", "Đèn", "Điều hòa", "Khóa cửa", "Ổ cắm"]

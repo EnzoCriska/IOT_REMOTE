@@ -5,6 +5,7 @@ import LoadingComp from '../../../component/LoadingComp';
 import { registerApi } from '../../../network/API';
 import { alerMsgCallApi } from '../../../util/function_util/alerMsgCallAPI';
 import { Toast } from 'native-base';
+import { connect } from 'react-redux';
 
 export default class Register extends Component {
     constructor(props) {

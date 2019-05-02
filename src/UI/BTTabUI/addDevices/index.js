@@ -34,8 +34,9 @@ class AddDevices extends Component {
     }
     
     onAddDevice(){
-        const {device_name, rooms, room_name, type_device} = this.state
+        const {device_name, room_name, type_device} = this.state
         const {token} = this.props.data
+        const {rooms} = this.props.devices
 
         console.log("Select" + this._menu.selectedIndex())
         if(device_name === ""){
@@ -53,7 +54,7 @@ class AddDevices extends Component {
                 tpmRoom = rooms[this._menu.selectedIndex()]
             }
             const tpmType = type_device[this._typeMenu.selectedIndex()]
-            addDeviceApi(token,tpmType,  device_name, tpmRoom).then(res => {
+            addDeviceApi(token,tpmType,  device_name, tpmRoom, false).then(res => {
                 Toast.show({
                     text:"Thêm thành công!",
                     type: "success"
@@ -84,8 +85,10 @@ class AddDevices extends Component {
         this.props.navigation.navigate("bleScan")
     }
 
+
     render() {
-        const { rooms, device_name, isAddRoom, room_name, type_device } = this.state
+        const { device_name, isAddRoom, room_name, type_device } = this.state
+        const {rooms} = this.props.devices
         return (
             <RenderAddDevices
                 device_name={device_name}
@@ -107,7 +110,8 @@ class AddDevices extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        data: state.login_reducer
+        data: state.login_reducer,
+        devices: state.devices_reducer
     }
 }
 

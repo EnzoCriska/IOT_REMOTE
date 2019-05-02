@@ -27,6 +27,7 @@ export const removeAccessToken = async () => {
 
 export const saveStatusLogin = async (userInfo = {}) => {
     try{
+        console.log(userInfo)
         await AsyncStorage.setItem('status_login', JSON.stringify(userInfo))
     } catch(e){
         console.log(e)

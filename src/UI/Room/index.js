@@ -61,10 +61,11 @@ class Room extends Component {
         const {isReload} = this.state
 
         const { devices } = this.props.prop
+        console.log(["DEVICES: ROOM", devices])
 
         var roomDevices = []
         for (let i = 0; i < devices.length; i++) {
-            console.log(["FOR LOOP: ", devices[i].metadata.room.name, this.props.label])
+            // console.log(["FOR LOOP: ", devices[i].metadata.room.name, this.props.label])
             if (devices[i].metadata.room.name === this.props.label) {
                 roomDevices.push(devices[i])
             }

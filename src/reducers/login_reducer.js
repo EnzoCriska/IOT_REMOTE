@@ -1,20 +1,23 @@
 
-import { LOGINING, LOGIN_SUCCESS, LOGIN_FAIL, GET_TOKEN } from '../util/value_containt/actions_type';
+import { LOGINING, LOGIN_SUCCESS, LOGIN_FAIL, GET_TOKEN, GET_CHANNEL_SUCCESS, GET_APP_SUCCESS } from '../util/value_containt/actions_type';
 
 const APP_STATE = {
     token: '',
     refreshtoken: '',
     isLoading: false,
-    error: ''
+    error: '',
+    channel: ''
 }
 
 export default (state = APP_STATE, action) => {
     switch (action.type) {
         case GET_TOKEN:
-            return{
+            return {
                 ...state,
                 token: action.payload,
-                user_name: action.user_name
+                user_name: action.user_name,
+                channel: action.channel,
+                app: action.app
             }
 
         case LOGINING:
@@ -36,9 +39,17 @@ export default (state = APP_STATE, action) => {
                 error: action.error,
                 isLoading: false
             }
+        case GET_CHANNEL_SUCCESS:
+            return {
+                ...state,
+                channel: action.payload
+            }
 
-    
-
+        case GET_APP_SUCCESS:
+            return {
+                ...state,
+                app: action.payload
+            }
         default:
             return state
     }
