@@ -72,14 +72,50 @@ let DataProcessor = (function () {
     };
 
     DataProcessor.prototype.ProcessIncomeData = function (data) {
-        const destination  = data._destinationName
+        // if (data.code !== 'pip') console.log(data)
+        if (data.code !== 'pip') console.log("messsage: " + JSON.stringify(data));
+        if (data.sender_id !== 0) {
+            console.log('Response ' + data.code + data.type + ":" + data.content);
+            let packet = JSON.parse(data.content);
+            let handler = this.GetResponseHandler(data.sender_id);
+            // if (data.code+data.type === 'cha2') 
+            if (handler != null) {
+                if (packet.status) {
+                    if (handler.funcSuccess != null) handler.funcSuccess(JSON.parse(packet.data));
+                } else if (handler.funcError != null) handler.funcError(packet.error);
+            }
+            this.RemoveResponseHandler(data.sender_id);
+        } else {
+            if (data.code === 'pip') {
 
-        let handler = this.GetPushHandler(destination)
-        // console.log([destination, handler])
-        if(handler[0]){
-            // console.log(typeof handler.funcSuccess)
-            handler[0].funcSuccess(data)
+
+            } else {
+                
+                console.log('Get Push ' + data.code + data.type + " : " + data.content);
+            }
+
+            let packet = JSON.parse(data.content);
+            let code = data.code.substring(0, 3);
+            let handlers = this.GetPushHandler(code + data.type);
+
+            if (code === 'crt') {
+                console.log("handlers : " + JSON.stringify(handlers));
+            }
+
+            if (handlers != null && handlers.length > 0) {
+                if (packet.status) {
+                    handlers.forEach(handler => {
+                        if (handler.funcSuccess != null) handler.funcSuccess(JSON.parse(packet.data));
+                    });
+                } else {
+                    handlers.forEach(handler => {
+                        if (handler.funcError != null) handler.funcError(packet.error);
+                    });
+                }
+            }
+
         }
+
     };
 
     return {

@@ -31,7 +31,7 @@ export function  getDevices(self, token){
             alerMsgCallApi(self, res)
             console.log(["DATA" , things])
             for (let i = 0; i< things.length; i++){
-                if(things[i].type === "app"){
+                if(things[i].metadata.type === "app"){
                     things.splice(i, 1)
                     break;
                 }

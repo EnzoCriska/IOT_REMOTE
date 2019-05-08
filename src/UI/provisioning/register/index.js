@@ -39,8 +39,10 @@ export default class Register extends Component {
                     type: "success"
                 })
                 this.props.navigation.navigate("login")
+            }else{
+                console.log(res)
             }
-        })
+        }).catch(err => console.log(err))
     }
 
 

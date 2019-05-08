@@ -3,7 +3,7 @@ import { Toast } from 'native-base';
 import { Alert } from 'react-native';
 
 export function alerMsgCallApi(self, res) {
-
+    console.log(["ALERT", res])
     const code = res.status
 
     switch (code) {

@@ -5,6 +5,20 @@ import {
 import { styles } from './style';
 import { Icon } from 'native-base';
 
+const NothingView = () => {
+    return (
+        <View style = {styles.contianerNothing}>
+            <Icon
+                name = "optin-monster"
+                type = "FontAwesome"
+                style = {styles.iconNothing}
+            />
+            <Text style = {styles.textNothing}>Không có thiết bị nào được tìm thấy!</Text>
+        </View>
+    )
+}
+
+
 
 export const RenderRoom = ({
     devices = [],
@@ -15,7 +29,7 @@ export const RenderRoom = ({
 }) => {
     return (
         <View style={styles.container}>
-            {devices.length === 0 ? <Text>Nothing</Text> :
+            {devices.length === 0 ? <NothingView/> :
                 <FlatList
                     style={styles.flatlist}
                     data={devices}

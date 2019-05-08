@@ -23,6 +23,7 @@ class Room extends Component {
                 this.props.navigation.navigate("light", { item: item })
                 break;
             case "Quạt":
+            this.props.navigation.navigate("fan", {item: item})
                 break;
             case "Điều hòa":
                 break;

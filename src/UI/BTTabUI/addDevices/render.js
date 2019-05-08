@@ -6,6 +6,7 @@ import { styles } from './style';
 import { Icon } from 'native-base';
 import { STRINGS } from '../../../util/value_containt/strings';
 import { Dropdown } from 'react-native-material-dropdown'
+import { APP_STYLE_COLOR } from '../../../util/app_style_containt/style';
 
 export const RenderAddDevices = ({
     device_name = "",
@@ -90,7 +91,7 @@ export const RenderAddDevices = ({
                         <View style={styles.selectionContainer}>
                             <View style={styles.categorySelect}>
                                 <Dropdown
-                                    baseColor="red"
+                                    baseColor={APP_STYLE_COLOR}
                                     textColor="grey"
                                     data={data_type}
                                     label="Loại"
@@ -102,7 +103,7 @@ export const RenderAddDevices = ({
                         <View style={styles.selectionContainer}>
                             <View style={styles.categorySelect}>
                                 <Dropdown
-                                    baseColor="red"
+                                    baseColor={APP_STYLE_COLOR}
                                     textColor="grey"
                                     label='Phòng'
                                     data={data_rooms}

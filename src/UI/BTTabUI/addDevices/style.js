@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
         alignSelf: "center",
     },
     addbodyContainer:{
-        backgroundColor: APP_STYLE_COLOR,
+        backgroundColor: "#b3e6ff",
         margin: 20 * scale_point,
         borderRadius: 5 * scale_point,
         flex:1,
@@ -87,7 +87,7 @@ export const styles = StyleSheet.create({
     },
     addRoomIcon:{
         fontSize: 30,
-        color: 'red',
+        color: APP_STYLE_COLOR,
         marginLeft: 10 * scale_point
     },
 })

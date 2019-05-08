@@ -1,36 +1,97 @@
-import { ws } from "../value_containt/constaint";
 
+import DataProcessor from './DataProcessor';
 
-var client = new Paho.MQTT.Client(ws.WS_HOST, Number(ws.WS_PORT), "/channels", "clientId");
+const uuidv1 = require('uuid/v1');
 
-// set callback handlers
-client.onConnectionLost = onConnectionLost;
-client.onMessageArrived = onMessageArrived;
+import { AsyncStorage } from 'react-native';
 
-// connect the client
-client.connect({onSuccess:onConnect});
+import init from 'react_native_mqtt';
 
+init({
+  size: 10000,
+  storageBackend: AsyncStorage,
+  defaultExpires: 1000 * 3600 * 24,
+  enableCache: true,
+  sync: {},
+});
 
-// called when the client connects
-function onConnect() {
-  // Once a connection has been made, make a subscription and send a message.
-  console.log("onConnect");
-  client.subscribe("World");
-  message = new Paho.MQTT.Message("Hello");
-  message.destinationName = "World";
-  client.send(message);
-}
+let Network = (function () {
 
-// called when the client loses its connection
-function onConnectionLost(responseObject) {
-  if (responseObject.errorCode !== 0) {
-    console.log("onConnectionLost:"+responseObject.errorMessage);
+  let instance;
+
+  function Network() {
+
   }
-}
 
-// called when a message arrives
-function onMessageArrived(message) {
-  console.log("onMessageArrived:"+message.payloadString);
-}
+  Network.prototype.Init = function () {
+      
+      this.client = new Paho.MQTT.Client('35.247.152.248', 1883, '/channels/023e85fd-eb09-417f-af73-1985e281c295/messages', "uname");;
+      console.log(this.client)
 
-export default client;
+      console.log('Network init: ' + this.client.host);
+  };
+
+    
+
+  Network.prototype.Connect = function () {
+
+      let _this = this;
+      
+      console.log("Start connect to : ");
+      this.client.connect(
+        {
+          hosts: ['wss://35.247.152.248:1883/mqtt'],
+          timeout: 30000,
+          userName: '65fa319c-c27f-4bc9-83bf-5b4e1f81ba4b',
+          password: 'bf054c59-f401-4f84-b7fa-e148f50181f7',
+          onSuccess: this.onConnect.bind(this), 
+          useSSL: true, 
+          onFailure: this.onFailure.bind(this) })
+      
+      this.client.onConnectionLost = this.onConnectionLost;
+      this.client.onMessageArrived = this.onMessageArrived.bind(this);
+
+  };
+
+  Network.prototype.onConnect = function(){
+    console.log("NETWORK CONNECTED")
+  }
+
+  Network.prototype.onFailure = function(err){
+    console.log(["NEWORK CONNECT FAIL: ", err])
+  }
+
+  Network.prototype.onMessageArrived = function (packet) {
+    console.log(packet)
+      DataProcessor.ProcessIncomeData(packet);
+  };
+
+  Network.prototype.onConnectionLost = function () {
+      // if (this._socket !== null && this._socket !== undefined) {
+      //     try {
+      //         this._socket.close(ws.LOGOUT_REASON);
+      //     } catch (e) {
+      //         console.log("e", e);
+      //     }
+      // }
+      // DataProcessor.Destroy();
+  };
+
+  Network.prototype.Send = function (data) {
+      this._socket.send(data);
+  };
+
+  return {
+      getInstance: function () {
+          if (instance == null) {
+              instance = new Network();
+              instance.constructor = null;
+          }
+          return instance;
+      }
+  };
+
+})();
+
+let NetworkInstance = Network.getInstance();
+export default NetworkInstance;

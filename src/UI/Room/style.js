@@ -1,10 +1,15 @@
 import { StyleSheet } from 'react-native';
 import { scale_point, width } from '../../util/value_containt/constaint';
-import { APP_STYLE_COLOR } from '../../util/app_style_containt/style';
+import { APP_STYLE_COLOR, COLORS } from '../../util/app_style_containt/style';
 
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    contianerNothing:{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     flatlist:{
         flex: 1, marginRight: 10 * scale_point
@@ -37,5 +42,14 @@ export const styles = StyleSheet.create({
     textItemName:{
         color: APP_STYLE_COLOR,
         fontSize: 16 * scale_point
+    },
+    textNothing:{
+        fontSize: 16,
+        color: COLORS.GREY,
+    },
+    iconNothing:{
+        fontSize: 50 * scale_point,
+        color :APP_STYLE_COLOR,
+        margin:  20 * scale_point
     }
 })

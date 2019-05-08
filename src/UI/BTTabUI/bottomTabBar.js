@@ -11,6 +11,7 @@ import SmartScenario from './SmartScenario/index';
 import BLEScan from './BLEScan';
 import LightRemote from './RemoteUI/LightRemote';
 import Login from '../provisioning/login/index';
+import FanRemote from './RemoteUI/FanRemote/index';
 
 const ADD = createStackNavigator({
     addDevice: AddDevices,
@@ -35,6 +36,7 @@ ADD.navigationOptions = ({ navigation }) => {
 const HomeStack = createStackNavigator({
     home: Home,
     light: LightRemote,
+    fan: FanRemote,
     login: Login
 }, {headerMode:'none'})
 
@@ -106,48 +108,48 @@ export const TabBottom = createBottomTabNavigator({
                 return focused ?
                     <Icon
                         name="plus-circle"
-                        size={60}
-                        color={COLORS.BOTTONTAB_ICON_ACTIVE}
-                    /> :
-                    <Icon
-                        name="plus-circle"
-                        size={50}
-                        color={COLORS.BOTTONTAB_ICON_UNACTIVE}
-                    />
-            },
-            tabBarLabel: ({ focused }) => {
-                return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-                    <Text style={focused ? { color: COLORS.BOTTONTAB_ICON_ACTIVE } : { color: COLORS.BOTTONTAB_ICON_UNACTIVE }}></Text>
-                </View>
-
-            }
-        })
-    },
-
-    SmartScenario: {
-        screen: SmartScenario,
-        navigationOptions: ({ navigation }) => ({
-            tabBarIcon: ({ focused }) => {
-                return focused ?
-                    <Icon
-                        name="codepen"
                         size={30}
                         color={COLORS.BOTTONTAB_ICON_ACTIVE}
                     /> :
                     <Icon
-                        name="codepen"
+                        name="plus-circle"
                         size={25}
                         color={COLORS.BOTTONTAB_ICON_UNACTIVE}
                     />
             },
             tabBarLabel: ({ focused }) => {
                 return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-                    <Text style={focused ? { color: COLORS.BOTTONTAB_ICON_ACTIVE} : { color: COLORS.BOTTONTAB_ICON_UNACTIVE}}>Kịch bản</Text>
+                    <Text style={focused ? { color: COLORS.BOTTONTAB_ICON_ACTIVE } : { color: COLORS.BOTTONTAB_ICON_UNACTIVE }}>Thêm thiết bị</Text>
                 </View>
 
             }
         })
     },
+
+    // SmartScenario: {
+    //     screen: SmartScenario,
+    //     navigationOptions: ({ navigation }) => ({
+    //         tabBarIcon: ({ focused }) => {
+    //             return focused ?
+    //                 <Icon
+    //                     name="codepen"
+    //                     size={30}
+    //                     color={COLORS.BOTTONTAB_ICON_ACTIVE}
+    //                 /> :
+    //                 <Icon
+    //                     name="codepen"
+    //                     size={25}
+    //                     color={COLORS.BOTTONTAB_ICON_UNACTIVE}
+    //                 />
+    //         },
+    //         tabBarLabel: ({ focused }) => {
+    //             return <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+    //                 <Text style={focused ? { color: COLORS.BOTTONTAB_ICON_ACTIVE} : { color: COLORS.BOTTONTAB_ICON_UNACTIVE}}>Kịch bản</Text>
+    //             </View>
+
+    //         }
+    //     })
+    // },
     Profile: {
         screen: ProfileStack,
         navigationOptions: ({ navigation }) => ({

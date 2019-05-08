@@ -1,9 +1,13 @@
-export const APP_STYLE_COLOR = "#32AEA2"
+export const APP_STYLE_COLOR = "#1E88E5"
 
 export const COLORS  = {
     WHITE: "#FFF",
     GREY: "grey",
     GREEN: "green",
-    BOTTONTAB_ICON_UNACTIVE: "grey",
-    BOTTONTAB_ICON_ACTIVE: "#fff"
+    BOTTONTAB_ICON_UNACTIVE: "#90CAF9",
+    BOTTONTAB_ICON_ACTIVE: "#FFF",
+    LOGIN_BACKGROUD_BUTTON: "#1cd1ff",
+    REGISTER_BACKGROUD_BUTTON: "#BBDEFB",
+    TEXT_BOTTON_REGISTER : "#1E88E5",
+    TEXT_BOTTON_LOGIN : "#FFF"
 }

@@ -53,7 +53,7 @@ export const RenderLogin = ({
                     <TouchableOpacity
                         onPress={() => onRegister()}
                         style={styles.register}>
-                        <Text style={styles.textButton}>Đăng ký</Text>
+                        <Text style={styles.textRegister}>Đăng ký</Text>
                     </TouchableOpacity>
 
                     <TouchableOpacity

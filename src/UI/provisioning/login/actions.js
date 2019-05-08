@@ -33,13 +33,13 @@ export function getAppSuccess(app){
     }
 }
 
-export function createAppThing(token, name, chanel){
+export function createAppThing(self, token, name, chanel){
     return (dispatch) => {
         getDevicesApi(token).then(res => {
             console.log(["GET DEVICE CREATE APP", res.data.things])
             const things = res.data.things
             var found = things.find((element) => {
-                return element.name === name && element.type === "app"
+                return element.name === name
             })
 
             console.log(found)
@@ -57,8 +57,8 @@ export function createAppThing(token, name, chanel){
             }else{
                 addDeviceApi(token, null, name, null, true).then(res => {
                     console.log(["CREATE APP",res])
-                    alerMsgCallApi(res)
-                    dispatch(createAppThing(token, name, chanel))
+                    alerMsgCallApi(self, res)
+                    dispatch(createAppThing(self, token, name, chanel))
                 }).catch(err => console.log(err))
             }
         })
@@ -76,7 +76,7 @@ export function getChannelSuccess(chanel){
 
 
 
-export function createChanel(name, token) {
+export function createChanel(self, name, token) {
     return (dispatch) => {
         console.log("CREATTING...")
         getChannelApi(token).then(res => {
@@ -94,13 +94,13 @@ export function createChanel(name, token) {
                     user_name: name,
                     channel: found
                 }
-                dispatch(createAppThing(token, name, found))
+                dispatch(createAppThing(self, token, name, found))
                 // saveStatusLogin(status)
             }else{
                 createChanelApi(name, token).then(res => {
                     console.log(["CHANEL CREATED", res])
                     alerMsgCallApi(res)
-                    dispatch(createChanel(name, token))
+                    dispatch(createChanel(self, name, token))
                 })
             }
         })     
@@ -119,8 +119,9 @@ export function login_actions(self, username, password) {
                     text: "Đăng nhập thành công!",
                     type: "success"
                 })
+                console.log("LOGIN SUCCESS")
                 dispatch(login_success(res.data, username))
-                dispatch(createChanel(username,res.data.token))
+                dispatch(createChanel(self, username,res.data.token))
 
                 saveAccessToken(res.data.token)
                 self.props.navigation.navigate("home")

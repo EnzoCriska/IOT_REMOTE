@@ -4,6 +4,7 @@ import { RenderLogin } from './render';
 import LoadingComp from '../../../component/LoadingComp';
 import { login_actions } from './actions';
 import { connect } from 'react-redux';
+import Axios from 'axios';
 
 class Login extends Component {
     constructor(props) {
@@ -28,8 +29,16 @@ class Login extends Component {
 
     onLogin() {
         this.props.action_login(this, this.state.email, this.state.password)
+    }
+
+    componentDidMount() {
+      Axios.get(
+        'https://vnexpress.net/'
+      ).then(res => console.log(["Test Rest", res]))
+      .catch(err => console.log(err))
 
     }
+    
 
 
 

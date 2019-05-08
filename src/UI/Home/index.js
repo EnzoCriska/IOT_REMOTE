@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BackHandler, Animated } from 'react-native';
+import { BackHandler, Animated, AsyncStorage } from 'react-native';
 import { RenderHome } from './render';
 import { getStatusWeather, getDevicesApi } from '../../network/API';
 import { requesLocationPermission } from '../../util/function_util/checkPermission';
@@ -7,14 +7,16 @@ import { connect } from 'react-redux'
 import { getDevices, createChanel, getChanelAction } from './action';
 import { Toast } from 'native-base';
 import { height, ws } from '../../util/value_containt/constaint';
-// import { Network } from '../../util/MQTTtoMainFlux/Network';
-// import client from '../../util/MQTTtoMainFlux/client';
-// import  { Network } from '../../util/MQTTtoMainFlux/paho_client';
-// import client from '../../util/MQTTtoMainFlux/Network';
+
+// import Network from '../../util/MQTTtoMainFlux/client';
+import Cloud from '../../util/MQTTtoMainFlux/cloud'
+// import Network from '../../util/websocket/Network'
 
 class Home extends Component {
+  client;
   constructor(props) {
     super(props);
+
     this.springValue = new Animated.Value(100);
     this.state = {
       country: {
@@ -33,13 +35,70 @@ class Home extends Component {
 
   }
 
+  componentDidMount() {
+
+    this.props.navigation.addListener('willBlur',
+      payload => {
+        BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+      })
+
+    this.initMQTT()
+    
+    
+  }
+
+  async initData(){
+    await requesLocationPermission()
+    this.getDevice()
+    await navigator.geolocation.getCurrentPosition(
+      position => {
+        console.log(position)
+        const location = position.coords
+        getStatusWeather(location.latitude, location.longitude).then(res => {
+          console.log(res);
+          this.setState({
+            country: {
+              country: res.sys.country,
+              city: res.name
+            },
+            forecast: {
+              main: res.weather[0].main,
+              description: res.weather[0].description,
+              temp: res.main.temp,
+              icon: res.weather[0].icon
+            }
+          })
+
+          console.log(this.state.forecast)
+
+        }).catch(err => {
+          console.log("ERROR " + err.toString())
+        })
+      }
+    ).catch(error => console.log(error))
+
+
+
+  }
+
+  initMQTT() {
+    console.log("Init MQTT Client")
+    // Network.Init()
+    // Network.Connect()
+    Cloud.Init()
+    Cloud.Connect()
+    // Network.Init()
+    // Network.Connect()
+  }
+
   componentWillMount() {
     BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    this.initData()
   }
 
   _spring() {
     Toast.show({
-      text:"Nhấn back lần nữa để thoát",
+      text: "Nhấn back lần nữa để thoát",
       type: "warning"
     })
     this.setState({ backClickCount: 1 }, () => {
@@ -69,62 +128,18 @@ class Home extends Component {
 
   }
 
+  getDevice() {
+    const { token, user_name } = this.props.data
+    this.props.getDevices(this, token)
+  }
+
+
 
   handleBackButton = () => {
     this.state.backClickCount == 1 ? BackHandler.exitApp() : this._spring();
 
     return true;
   };
-
-  async componentDidMount() {
-    this.props.navigation.addListener('willBlur', 
-    payload => {
-      BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
-    })
-
-    
-
-    await requesLocationPermission()
-    this.getDevice()
-    await navigator.geolocation.getCurrentPosition(
-      position => {
-        console.log(position)
-        const location = position.coords
-        getStatusWeather(location.latitude, location.longitude).then(res => {
-          console.log(res);
-          this.setState({
-            country: {
-              country: res.sys.country,
-              city: res.name
-            },
-            forecast: {
-              main: res.weather[0].main,
-              description: res.weather[0].description,
-              temp: res.main.temp,
-              icon: res.weather[0].icon
-            }
-          })
-
-          console.log(this.state.forecast)
-
-        }).catch(err => {
-          console.log("ERROR " + err.toString())
-        })
-      }
-    ).catch(error => console.log(error))
-    this.initNetwork()
-  };
-
-  getDevice() {
-    const { token, user_name } = this.props.data
-    this.props.getDevices(this, token)
-  }
-
-  initNetwork(){
-    console.log("home init...")
-    const{app, channel} = this.props.data
-    // Network(app.id, app.key, channel.id)
-  }
 
 
   render() {
