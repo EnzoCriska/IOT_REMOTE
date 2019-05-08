@@ -59,6 +59,7 @@ class AddDevices extends Component {
                     text:"Thêm thành công!",
                     type: "success"
                 })
+                this.setState({device_name: '', room_name: ''})
             })
             .catch(err => Toast.show({
                 text:"Thêm thất bại!",

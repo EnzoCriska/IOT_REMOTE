@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text , DeviceEventEmitter} from 'react-native';
 import { RenderFanRemote } from './render';
 import DataProcessor from '../../../../util/MQTTtoMainFlux/DataProcessor';
 import Cloud from '../../../../util/MQTTtoMainFlux/cloud';
 import { connect } from 'react-redux';
+
+import { SensorManager } from 'NativeModules';
 
 class FanRemote extends Component {
     constructor(props) {
         super(props);
         this.state = {
             position: "",
+            room_temp: 27,
             item: this.props.navigation.getParam("item"),
         };
 
@@ -32,6 +35,11 @@ class FanRemote extends Component {
     }
     componentDidMount() {
         this.initListener()
+        SensorManager.startThermometer(1000);
+        DeviceEventEmitter.addListener('Thermometer', function (data) {
+            console.log(data)
+            console.log("===========================")
+        });
     }
 
     initListener() {
@@ -52,26 +60,26 @@ class FanRemote extends Component {
         console.log(data)
     }
 
-    changeSwap(){
+    changeSwap() {
         this.setState({
             isSwap: !this.state.isSwap
         })
-        Cloud.Send("fan"+this.state.position, "isSwap")
+        Cloud.Send("fan" + this.state.position, "isSwap")
     }
 
-    changeLevel(level){
-        this.setState({isLevel: level, isOn: true})
+    changeLevel(level) {
+        this.setState({ isLevel: level, isOn: true })
         Cloud.Send("fan" + this.state.position, level.toString())
     }
 
-    changeOn(){
-        if(this.state.isOn){
+    changeOn() {
+        if (this.state.isOn) {
             this.setState({
                 isOn: false,
                 isLevel: 0
             })
             Cloud.Send("fan" + this.state.position, "0")
-        }else{
+        } else {
             this.setState({
                 isOn: true,
                 isLevel: 1
@@ -81,17 +89,18 @@ class FanRemote extends Component {
     }
 
     render() {
-        const {item, isSwap, isLevel, isOn} = this.state
+        const { item, isSwap, isLevel, isOn, room_temp } = this.state
         return (
             <RenderFanRemote
-                device_name = {item.name}
-                ongoBack = {() => this.props.navigation.goBack()}
-                isSwap= {isSwap}
-                changeSwap = {() => this.changeSwap()}
-                isLevel = {isLevel}
-                changeLevel = {(level) => this.changeLevel(level)}
-                isOn = {isOn}
-                changeOn = {()=> this.changeOn()}
+                device_name={item.name}
+                ongoBack={() => this.props.navigation.goBack()}
+                room_temp = {room_temp}
+                isSwap={isSwap}
+                changeSwap={() => this.changeSwap()}
+                isLevel={isLevel}
+                changeLevel={(level) => this.changeLevel(level)}
+                isOn={isOn}
+                changeOn={() => this.changeOn()}
             />
         );
     }

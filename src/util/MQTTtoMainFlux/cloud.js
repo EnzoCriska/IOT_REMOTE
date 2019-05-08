@@ -24,7 +24,6 @@ let Cloud = (function () {
     Cloud.prototype.Init = function () {
 
         this.client = new Client({ uri: 'wss://m12.cloudmqtt.com:34132/mqtt', clientId: 'web_83434287hshd6e2', storage: myStorage });
-        // this.mainflux = new Client({ uri})
         console.log(this.client)
 
         console.log('Network init: ' + this.client.host);

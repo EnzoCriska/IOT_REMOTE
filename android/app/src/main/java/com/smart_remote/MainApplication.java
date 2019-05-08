@@ -3,6 +3,7 @@ package com.smart_remote;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.sensormanager.SensorManagerPackage;
 import com.horcrux.svg.SvgPackage;
 
 import com.rusel.RCTBluetoothSerial.RCTBluetoothSerialPackage;
@@ -29,6 +30,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new SensorManagerPackage(),
             new SvgPackage(),
             new RCTBluetoothSerialPackage(),
             new VectorIconsPackage(),

@@ -23,13 +23,16 @@ class Room extends Component {
                 this.props.navigation.navigate("light", { item: item })
                 break;
             case "Quạt":
-            this.props.navigation.navigate("fan", {item: item})
+                this.props.navigation.navigate("fan", { item: item })
                 break;
             case "Điều hòa":
+                this.props.navigation.navigate("conditioning", { item: item })
                 break;
             case "Khóa cửa":
+                this.props.navigation.navigate("lock", { item: item })
                 break;
             case "Ổ cắm":
+                this.props.navigation.navigate("socket", { item: item })
                 break;
             default:
 
@@ -53,13 +56,13 @@ class Room extends Component {
         )
     }
 
-    onReloadDevices(){
+    onReloadDevices() {
         this.props.onReloadDevices()
     }
 
     render() {
 
-        const {isReload} = this.state
+        const { isReload } = this.state
 
         const { devices } = this.props.prop
         console.log(["DEVICES: ROOM", devices])
@@ -78,8 +81,8 @@ class Room extends Component {
                 devices={roomDevices}
                 goToDevice={(item) => this.goToDevice(item)}
                 deleteDevice={(item) => this.deleteDevice(item)}
-                isReload = {isReload}
-                onReloadDevices = {() => this.onReloadDevices()}
+                isReload={isReload}
+                onReloadDevices={() => this.onReloadDevices()}
             />
         );
     }

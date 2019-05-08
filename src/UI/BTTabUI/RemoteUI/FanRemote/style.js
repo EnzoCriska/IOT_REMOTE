@@ -48,6 +48,11 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    textinfo:{
+        fontSize: 20,
+        color: "#fff",
+        marginVertical:5 * scale_point,
+    },
     remoteContainer: {
         flex: 2,
         justifyContent: 'center',

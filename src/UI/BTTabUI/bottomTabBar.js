@@ -12,6 +12,8 @@ import BLEScan from './BLEScan';
 import LightRemote from './RemoteUI/LightRemote';
 import Login from '../provisioning/login/index';
 import FanRemote from './RemoteUI/FanRemote/index';
+import LockRemote from './RemoteUI/LockRemote';
+import ConditioningRemote from './RemoteUI/conditioning';
 
 const ADD = createStackNavigator({
     addDevice: AddDevices,
@@ -37,7 +39,9 @@ const HomeStack = createStackNavigator({
     home: Home,
     light: LightRemote,
     fan: FanRemote,
-    login: Login
+    lock: LockRemote,
+    login: Login,
+    conditioning: ConditioningRemote
 }, {headerMode:'none'})
 
 HomeStack.navigationOptions = ({ navigation }) => {
