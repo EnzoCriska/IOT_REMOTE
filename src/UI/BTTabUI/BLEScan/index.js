@@ -9,7 +9,7 @@ export default class BLEScan extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isRefreshing: false
+      isRefreshing: false,
     };
   }
 
@@ -106,6 +106,8 @@ export default class BLEScan extends Component {
   }
 
   pairDevice(device) {
+    console.log(device)
+    this.props.navigation.navigate("addDevice", {mac: device.id})
     BluetoothSerial.pairDevice(device.id)
       .then((paired) => {
         if (paired) {
@@ -117,6 +119,7 @@ export default class BLEScan extends Component {
           const devices = this.state.devices
           devices.push(device)
           this.setState({ devices, unpairedDevices: this.state.unpairedDevices.filter((d) => d.id !== device.id) })
+          
         } else {
           console.log(`Device ${device.name} pairing failed`)
           Toast.show({

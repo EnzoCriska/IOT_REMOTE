@@ -20,7 +20,9 @@ export const RenderAddDevices = ({
     onChangeAddRoom = () => { },
     room_name = "",
     onChangeRoomName = () => { },
-    onToWFScan = () => { }
+    onToWFScan = () => { },
+    device_address = "",
+    onChangeaddress = () => {}
 }) => {
     let data_rooms = [];
 
@@ -47,7 +49,7 @@ export const RenderAddDevices = ({
                         onPress={() => onToWFScan()}>
                         <Icon
                             type="FontAwesome"
-                            name="wifi"
+                            name="bluetooth-b"
                             style={styles.qrIconStyle}
                         />
                     </TouchableOpacity>
@@ -85,6 +87,15 @@ export const RenderAddDevices = ({
                                 placeholder="Tên thiết bị"
                                 value={device_name}
                                 onChangeText={(text) => onChangeName(text)}
+                            />
+                        </View>
+
+                        <View style={styles.inputContainer}>
+                            <TextInput
+                                style={styles.textInput}
+                                placeholder="Địa chỉ thiết bị"
+                                value={device_address}
+                                onChangeText={(text) => onChangeaddress(text)}
                             />
                         </View>
 

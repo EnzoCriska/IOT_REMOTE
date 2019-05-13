@@ -57,7 +57,6 @@ class LightRemote extends Component {
     onListen(data) {
         console.log(data.payloadString)
 
-        if (data._destinationName === "light0") {
 
             const payload = data.payloadString
             console.log(["listend...", payload])
@@ -71,11 +70,11 @@ class LightRemote extends Component {
                     this.setState({ isOn: true, light_value: valueChange })
                 }
             }
-        }
     }
 
     onListenRep(data){
         console.log(data.payloadString)
+        alert(data.payloadString)
     }
 
     onChangePoweoff() {

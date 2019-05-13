@@ -34,7 +34,7 @@ export const RenderHome = ({
                                 <Text style={styles.textCountry}>{country.city} - {country.country}</Text>
                             </View>
                             <View style={styles.showWeather}>
-                                <Text style={styles.textWeather}>Nhiệt độ: {forecast.temp}</Text>
+                                <Text style={styles.textWeather}>Nhiệt độ: {Math.ceil(forecast.temp/10)}</Text>
                                 <Text style={styles.textWeather}>Thời tiết: {forecast.main}</Text>
                                 <Text style={styles.textWeather}>Mô tả: {forecast.description}</Text>
                             </View>

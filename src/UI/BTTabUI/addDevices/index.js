@@ -6,6 +6,7 @@ import { addDeviceApi } from '../../../network/API';
 import { TYPE_DEVICES } from '../../../util/value_containt/constaint';
 import { Toast } from 'native-base';
 import { addDeviceAction } from './action';
+import Cloud from '../../../util/MQTTtoMainFlux/cloud'
 
 class AddDevices extends Component {
     _menu = null
@@ -17,9 +18,18 @@ class AddDevices extends Component {
             isAddRoom: false,
             room_name: "",
             type_device: TYPE_DEVICES,
-            rooms: []
+            rooms: [],
+            device_address: this.props.navigation.getParam("mac")
         };
         
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+         if ( prevState.device_address!== this.props.navigation.getParam("mac")) 
+         { 
+             console.log("change")
+             this.setState({device_address: this.props.navigation.getParam("mac")})
+        }
     }
 
     onChangeName(text) {
@@ -34,7 +44,7 @@ class AddDevices extends Component {
     }
     
     onAddDevice(){
-        const {device_name, room_name, type_device} = this.state
+        const {device_name, room_name, type_device, device_address} = this.state
         const {token} = this.props.data
         const {rooms} = this.props.devices
 
@@ -54,6 +64,7 @@ class AddDevices extends Component {
                 tpmRoom = rooms[this._menu.selectedIndex()]
             }
             const tpmType = type_device[this._typeMenu.selectedIndex()]
+            Cloud.Send("connect", device_address)
             addDeviceApi(token,tpmType,  device_name, tpmRoom, false).then(res => {
                 Toast.show({
                     text:"Thêm thành công!",
@@ -86,9 +97,13 @@ class AddDevices extends Component {
         this.props.navigation.navigate("bleScan")
     }
 
+    onChangeaddress(text){
+        this.setState({device_address: text})
+    }
+
 
     render() {
-        const { device_name, isAddRoom, room_name, type_device } = this.state
+        const { device_name, isAddRoom, room_name, type_device, device_address } = this.state
         const {rooms} = this.props.devices
         return (
             <RenderAddDevices
@@ -104,6 +119,8 @@ class AddDevices extends Component {
                 room_name = {room_name}
                 onChangeRoomName = {(text) => this.onChangeRoomName(text)}
                 onToWFScan = {() => this.onToWFScan()}
+                device_address = {device_address}
+                onChangeaddress = {(text) => this.onChangeaddress(text)}
             />
         );
     }
